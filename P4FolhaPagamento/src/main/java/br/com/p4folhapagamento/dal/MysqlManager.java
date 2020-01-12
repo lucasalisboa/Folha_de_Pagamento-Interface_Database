@@ -1,21 +1,28 @@
 package br.com.p4folhapagamento.dal;
 
 import java.sql.*;
+import javax.inject.Named;
 
+@Named
 public class MysqlManager {
-    private static final String driver = "com.mysql.cj.jdbc.Driver";
-    private static final String user = "root";
+    private static Connection connection;
     private static final String pass = "";
+    private static final String user = "root";
+    private static final String driver = "com.mysql.cj.jdbc.Driver";
     private static final String url = "jdbc:mysql://localhost:3306/P4Database";
     
-    public static Connection MysqlManager() {
+    public MysqlManager() {
         try {
             Class.forName(driver);
-            return DriverManager.getConnection(url, user, pass);
+            MysqlManager.connection =  DriverManager.getConnection(url, user, pass);
         }
-        catch(Exception e) {
+        catch(ClassNotFoundException | SQLException e) {
+            MysqlManager.connection = null;
             System.out.println("Error:" + e);
-            return null;
         }
-    }  
+    } 
+    
+    public Connection getConnection() {
+        return MysqlManager.connection;
+    }
 }
