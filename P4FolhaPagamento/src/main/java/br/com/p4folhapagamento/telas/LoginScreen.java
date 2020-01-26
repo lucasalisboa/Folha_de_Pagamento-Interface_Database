@@ -44,11 +44,19 @@ public class LoginScreen extends javax.swing.JFrame {
                 this.pst.setString(1, this.usuario.getText());
                 this.pst.setString(2, this.senha.getText());
                 this.rs = this.pst.executeQuery();
+                
                 if(this.rs.next()) {
                     if(this.rs.getString(4).equals("1")) {
                         new EmployerScreen(this.rs.getString(2)).setVisible(true);
+                        EmployerScreen.empregadoEditar.setEnabled(true);
+                        EmployerScreen.empregadoNovo.setEnabled(true);
+                        EmployerScreen.empregadoRemover.setEnabled(true);
+                        EmployerScreen.usuarioNovo.setEnabled(true);
+                        EmployerScreen.usuarioRemover.setEnabled(true);
                     }
-                    else new EmployeeScreen().setVisible(true);
+                    else {
+                         new EmployerScreen(this.rs.getString(2)).setVisible(true);
+                    }
                     this.dispose();
                     this.connection.close();
                 }

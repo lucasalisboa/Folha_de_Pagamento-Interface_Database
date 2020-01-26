@@ -23,24 +23,28 @@ public class EmployerScreen extends javax.swing.JFrame {
 
         desktop = new javax.swing.JDesktopPane();
         menu = new javax.swing.JMenuBar();
-        eu = new javax.swing.JMenu();
-        euPerfil = new javax.swing.JMenuItem();
-        tempo = new javax.swing.JMenu();
-        empregador = new javax.swing.JMenu();
-        empregadorNovo = new javax.swing.JMenuItem();
-        empregadorRemover = new javax.swing.JMenuItem();
+        usuario1 = new javax.swing.JMenu();
+        usuarioNovo = new javax.swing.JMenuItem();
+        usuarioRemover = new javax.swing.JMenuItem();
         empregado = new javax.swing.JMenu();
-        empregadoVer = new javax.swing.JMenuItem();
         empregadoNovo = new javax.swing.JMenu();
         empregadoNovoHorista = new javax.swing.JMenuItem();
         empregadoNovoAssalariado = new javax.swing.JMenuItem();
+        empregadoNovoComissionado = new javax.swing.JMenuItem();
         empregadoEditar = new javax.swing.JMenu();
         empregadoEditarHorista = new javax.swing.JMenuItem();
         empregadoEditarAssalariado = new javax.swing.JMenuItem();
+        empregadoEditarComissionado = new javax.swing.JMenuItem();
         empregadoRemover = new javax.swing.JMenuItem();
         pagamento = new javax.swing.JMenu();
         pagamentoPagar = new javax.swing.JMenuItem();
         pagamentoRelatorios = new javax.swing.JMenuItem();
+        lancamento = new javax.swing.JMenu();
+        lancamentoCartaoPonto = new javax.swing.JMenuItem();
+        lancamentoTaxaServico = new javax.swing.JMenuItem();
+        lancamentoResultadoVenda = new javax.swing.JMenuItem();
+        agenda = new javax.swing.JMenu();
+        agendaAlterar = new javax.swing.JMenuItem();
         ajuda = new javax.swing.JMenu();
         ajudaSobre = new javax.swing.JMenuItem();
         ajudaSair = new javax.swing.JMenuItem();
@@ -60,58 +64,33 @@ public class EmployerScreen extends javax.swing.JFrame {
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
+            .addGap(0, 823, Short.MAX_VALUE)
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 563, Short.MAX_VALUE)
+            .addGap(0, 510, Short.MAX_VALUE)
         );
 
         menu.setMinimumSize(new java.awt.Dimension(450, 25));
         menu.setPreferredSize(new java.awt.Dimension(450, 25));
         menu.setRequestFocusEnabled(false);
 
-        eu.setText("Eu");
+        usuario1.setText("Usuario");
 
-        euPerfil.setText("Perfil");
-        eu.add(euPerfil);
+        usuarioNovo.setText("Novo");
+        usuarioNovo.setEnabled(false);
+        usuario1.add(usuarioNovo);
 
-        menu.add(eu);
+        usuarioRemover.setText("Remover");
+        usuarioRemover.setEnabled(false);
+        usuario1.add(usuarioRemover);
 
-        tempo.setText("Linha do Tempo");
-        menu.add(tempo);
-
-        empregador.setText("Empregador");
-
-        empregadorNovo.setText("Novo");
-        empregadorNovo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empregadorNovoActionPerformed(evt);
-            }
-        });
-        empregador.add(empregadorNovo);
-
-        empregadorRemover.setText("Remover");
-        empregadorRemover.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empregadorRemoverActionPerformed(evt);
-            }
-        });
-        empregador.add(empregadorRemover);
-
-        menu.add(empregador);
+        menu.add(usuario1);
 
         empregado.setText("Empregado");
 
-        empregadoVer.setText("Ver");
-        empregadoVer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                empregadoVerActionPerformed(evt);
-            }
-        });
-        empregado.add(empregadoVer);
-
         empregadoNovo.setText("Novo");
+        empregadoNovo.setEnabled(false);
 
         empregadoNovoHorista.setText("Horista");
         empregadoNovoHorista.addActionListener(new java.awt.event.ActionListener() {
@@ -130,9 +109,13 @@ public class EmployerScreen extends javax.swing.JFrame {
         });
         empregadoNovo.add(empregadoNovoAssalariado);
 
+        empregadoNovoComissionado.setText("Comissionado");
+        empregadoNovo.add(empregadoNovoComissionado);
+
         empregado.add(empregadoNovo);
 
         empregadoEditar.setText("Editar");
+        empregadoEditar.setEnabled(false);
 
         empregadoEditarHorista.setText("Horista");
         empregadoEditarHorista.addActionListener(new java.awt.event.ActionListener() {
@@ -151,9 +134,18 @@ public class EmployerScreen extends javax.swing.JFrame {
         });
         empregadoEditar.add(empregadoEditarAssalariado);
 
+        empregadoEditarComissionado.setText("Comissionado");
+        empregadoEditarComissionado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empregadoEditarComissionadoActionPerformed(evt);
+            }
+        });
+        empregadoEditar.add(empregadoEditarComissionado);
+
         empregado.add(empregadoEditar);
 
         empregadoRemover.setText("Remover");
+        empregadoRemover.setEnabled(false);
         empregadoRemover.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 empregadoRemoverActionPerformed(evt);
@@ -163,7 +155,7 @@ public class EmployerScreen extends javax.swing.JFrame {
 
         menu.add(empregado);
 
-        pagamento.setText("Pagamento");
+        pagamento.setText("Rodar Folha ");
 
         pagamentoPagar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         pagamentoPagar.setText("Pagar");
@@ -174,6 +166,36 @@ public class EmployerScreen extends javax.swing.JFrame {
         pagamento.add(pagamentoRelatorios);
 
         menu.add(pagamento);
+
+        lancamento.setText("Lancamento");
+
+        lancamentoCartaoPonto.setText("Cartao de Ponto");
+        lancamentoCartaoPonto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lancamentoCartaoPontoActionPerformed(evt);
+            }
+        });
+        lancamento.add(lancamentoCartaoPonto);
+
+        lancamentoTaxaServico.setText("Taxa de servico");
+        lancamento.add(lancamentoTaxaServico);
+
+        lancamentoResultadoVenda.setText("Resultado de Venda");
+        lancamento.add(lancamentoResultadoVenda);
+
+        menu.add(lancamento);
+
+        agenda.setText("Agenda");
+
+        agendaAlterar.setText("Alterar");
+        agendaAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agendaAlterarActionPerformed(evt);
+            }
+        });
+        agenda.add(agendaAlterar);
+
+        menu.add(agenda);
 
         ajuda.setText("Ajuda");
 
@@ -203,32 +225,18 @@ public class EmployerScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(desktop)
-                    .addContainerGap()))
+            .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 575, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(desktop)
-                    .addContainerGap()))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(710, 630));
+        setSize(new java.awt.Dimension(839, 545));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void empregadoVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoVerActionPerformed
-        ViewEmployee viewEmployee = new ViewEmployee();
-        viewEmployee.setVisible(true);
-        this.desktop.add(viewEmployee);
-    }//GEN-LAST:event_empregadoVerActionPerformed
 
     private void ajudaSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajudaSairActionPerformed
         String warning = "Atenção";
@@ -238,7 +246,7 @@ public class EmployerScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_ajudaSairActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        this.eu.setText("Oi, " + this.usuario);
+        
     }//GEN-LAST:event_formWindowActivated
 
     private void empregadoNovoAssalariadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoNovoAssalariadoActionPerformed
@@ -271,20 +279,22 @@ public class EmployerScreen extends javax.swing.JFrame {
         this.desktop.add(editEmployeeSalaried);    }//GEN-LAST:event_empregadoEditarAssalariadoActionPerformed
 
     private void ajudaSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajudaSobreActionPerformed
-        About about = new About();
-        about.setVisible(true);
+        TelaSobre sobre = new TelaSobre();
+        sobre.setVisible(true);
+        
     }//GEN-LAST:event_ajudaSobreActionPerformed
 
-    private void empregadorNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadorNovoActionPerformed
-        NewEmployer newEmployer = new NewEmployer();
-        newEmployer.setVisible(true);
-        this.desktop.add(newEmployer);     
-    }//GEN-LAST:event_empregadorNovoActionPerformed
+    private void lancamentoCartaoPontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancamentoCartaoPontoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lancamentoCartaoPontoActionPerformed
 
-    private void empregadorRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadorRemoverActionPerformed
-        RemoveEmployer removeEmployer = new RemoveEmployer();
-        removeEmployer.setVisible(true);
-        this.desktop.add(removeEmployer);     }//GEN-LAST:event_empregadorRemoverActionPerformed
+    private void empregadoEditarComissionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoEditarComissionadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_empregadoEditarComissionadoActionPerformed
+
+    private void agendaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaAlterarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agendaAlterarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -325,28 +335,32 @@ public class EmployerScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu agenda;
+    private javax.swing.JMenuItem agendaAlterar;
     private javax.swing.JMenu ajuda;
     private javax.swing.JMenuItem ajudaSair;
     private javax.swing.JMenuItem ajudaSobre;
     private javax.swing.JDesktopPane desktop;
     private javax.swing.JMenu empregado;
-    private javax.swing.JMenu empregadoEditar;
+    public static javax.swing.JMenu empregadoEditar;
     private javax.swing.JMenuItem empregadoEditarAssalariado;
+    private javax.swing.JMenuItem empregadoEditarComissionado;
     private javax.swing.JMenuItem empregadoEditarHorista;
-    private javax.swing.JMenu empregadoNovo;
+    public static javax.swing.JMenu empregadoNovo;
     private javax.swing.JMenuItem empregadoNovoAssalariado;
+    private javax.swing.JMenuItem empregadoNovoComissionado;
     private javax.swing.JMenuItem empregadoNovoHorista;
-    private javax.swing.JMenuItem empregadoRemover;
-    private javax.swing.JMenuItem empregadoVer;
-    private javax.swing.JMenu empregador;
-    private javax.swing.JMenuItem empregadorNovo;
-    private javax.swing.JMenuItem empregadorRemover;
-    private javax.swing.JMenu eu;
-    private javax.swing.JMenuItem euPerfil;
+    public static javax.swing.JMenuItem empregadoRemover;
+    private javax.swing.JMenu lancamento;
+    private javax.swing.JMenuItem lancamentoCartaoPonto;
+    private javax.swing.JMenuItem lancamentoResultadoVenda;
+    private javax.swing.JMenuItem lancamentoTaxaServico;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu pagamento;
     private javax.swing.JMenuItem pagamentoPagar;
     private javax.swing.JMenuItem pagamentoRelatorios;
-    private javax.swing.JMenu tempo;
+    private javax.swing.JMenu usuario1;
+    public static javax.swing.JMenuItem usuarioNovo;
+    public static javax.swing.JMenuItem usuarioRemover;
     // End of variables declaration//GEN-END:variables
 }

@@ -13,43 +13,28 @@
         <Property name="requestFocusEnabled" type="boolean" value="false"/>
       </Properties>
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="eu">
+        <Menu class="javax.swing.JMenu" name="usuario1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Eu"/>
+            <Property name="text" type="java.lang.String" value="Usuario"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="euPerfil">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Perfil"/>
-              </Properties>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="tempo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Linha do Tempo"/>
-          </Properties>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="empregador">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Empregador"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="empregadorNovo">
+            <MenuItem class="javax.swing.JMenuItem" name="usuarioNovo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Novo"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadorNovoActionPerformed"/>
-              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="empregadorRemover">
+            <MenuItem class="javax.swing.JMenuItem" name="usuarioRemover">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Remover"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadorRemoverActionPerformed"/>
-              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -58,18 +43,14 @@
             <Property name="text" type="java.lang.String" value="Empregado"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="empregadoVer">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Ver"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadoVerActionPerformed"/>
-              </Events>
-            </MenuItem>
             <Menu class="javax.swing.JMenu" name="empregadoNovo">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Novo"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="empregadoNovoHorista">
                   <Properties>
@@ -90,12 +71,21 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadoNovoAssalariadoActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="empregadoNovoComissionado">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Comissionado"/>
+                  </Properties>
+                </MenuItem>
               </SubComponents>
             </Menu>
             <Menu class="javax.swing.JMenu" name="empregadoEditar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Editar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="empregadoEditarHorista">
                   <Properties>
@@ -116,21 +106,33 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadoEditarAssalariadoActionPerformed"/>
                   </Events>
                 </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="empregadoEditarComissionado">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Comissionado"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadoEditarComissionadoActionPerformed"/>
+                  </Events>
+                </MenuItem>
               </SubComponents>
             </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="empregadoRemover">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Remover"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadoRemoverActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="pagamento">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Pagamento"/>
+            <Property name="text" type="java.lang.String" value="Rodar Folha "/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="pagamentoPagar">
@@ -148,6 +150,46 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
               </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="lancamento">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Lancamento"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="lancamentoCartaoPonto">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cartao de Ponto"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lancamentoCartaoPontoActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="lancamentoTaxaServico">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Taxa de servico"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="lancamentoResultadoVenda">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Resultado de Venda"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="agenda">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agenda"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="agendaAlterar">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Alterar"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agendaAlterarActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
@@ -192,7 +234,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menu"/>
-    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,118,0,0,2,-58"/>
+    <SyntheticProperty name="formSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,33,0,0,3,71"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
     <SyntheticProperty name="generateSize" type="boolean" value="true"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
@@ -215,25 +257,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="700" max="32767" attributes="0"/>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="desktop" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
+          <Component id="desktop" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="575" max="32767" attributes="0"/>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="desktop" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="desktop" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -249,12 +280,12 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="688" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="823" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="563" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="510" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
