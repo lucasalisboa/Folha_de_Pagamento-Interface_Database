@@ -10,64 +10,66 @@ import java.net.URL;
 import java.sql.*;
 
 public class LoginScreen extends javax.swing.JFrame {
+
     @Inject
     private MysqlManager mysqlManager;
     private Connection connection = null;
     private PreparedStatement pst = null;
     private ResultSet rs = null;
-    
+
     public LoginScreen() {
         initComponents();
         initMysqlConnection();
     }
-    
+
     private void initMysqlConnection() {
         this.connection = new MysqlManager().getConnection();
-        if(this.connection != null) { 
+        if (this.connection != null) {
             URL resource = getClass().getResource("/icones/dbon24.png");
             ImageIcon imageIcon = new ImageIcon(resource);
             statusLabel.setIcon(imageIcon);
             statusLabel.setText("Database ON");
-        }
-        else {
+        } else {
             URL resource = getClass().getResource("/icones/dboff24.png");
             ImageIcon imageIcon = new ImageIcon(resource);
             statusLabel.setIcon(imageIcon);
             statusLabel.setText("Database OFF");
         }
-    } 
-      public void login() {
-        if(this.connection != null) {
+    }
+
+    public void login() {
+        if (this.connection != null) {
             String sql = "select * from usuarios where usuario=? and senha=?";
             try {
                 this.pst = this.connection.prepareStatement(sql);
                 this.pst.setString(1, this.usuario.getText());
                 this.pst.setString(2, this.senha.getText());
                 this.rs = this.pst.executeQuery();
-                
-                if(this.rs.next()) {
-                    if(this.rs.getString(4).equals("1")) {
+
+                if (this.rs.next()) {
+                    if (this.rs.getString(4).equals("admin")) {
                         new EmployerScreen(this.rs.getString(2)).setVisible(true);
                         EmployerScreen.empregadoEditar.setEnabled(true);
                         EmployerScreen.empregadoNovo.setEnabled(true);
                         EmployerScreen.empregadoRemover.setEnabled(true);
                         EmployerScreen.usuarioNovo.setEnabled(true);
                         EmployerScreen.usuarioRemover.setEnabled(true);
-                    }
-                    else {
-                         new EmployerScreen(this.rs.getString(2)).setVisible(true);
+                    } else {
+                        new EmployerScreen(this.rs.getString(2)).setVisible(true);
                     }
                     this.dispose();
                     this.connection.close();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválido(s)");
                 }
-                else JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválido(s)");
-            } catch(HeadlessException | SQLException e) {
+            } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(null, e);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ops, database offline");
         }
-        else JOptionPane.showMessageDialog(null, "Ops, database offline");
-    } 
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

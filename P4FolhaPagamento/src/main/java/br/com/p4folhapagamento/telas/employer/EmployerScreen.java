@@ -4,9 +4,9 @@ import br.com.p4folhapagamento.telas.all.About;
 import javax.swing.JOptionPane;
 
 public class EmployerScreen extends javax.swing.JFrame {
-    
+
     private final String usuario;
-    
+
     public EmployerScreen(String usuario) {
         this.usuario = usuario;
         initComponents();
@@ -41,8 +41,8 @@ public class EmployerScreen extends javax.swing.JFrame {
         pagamentoRelatorios = new javax.swing.JMenuItem();
         lancamento = new javax.swing.JMenu();
         lancamentoCartaoPonto = new javax.swing.JMenuItem();
-        lancamentoTaxaServico = new javax.swing.JMenuItem();
         lancamentoResultadoVenda = new javax.swing.JMenuItem();
+        lancamentoTaxaServico = new javax.swing.JMenuItem();
         agenda = new javax.swing.JMenu();
         agendaAlterar = new javax.swing.JMenuItem();
         ajuda = new javax.swing.JMenu();
@@ -68,7 +68,7 @@ public class EmployerScreen extends javax.swing.JFrame {
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
+            .addGap(0, 481, Short.MAX_VALUE)
         );
 
         menu.setMinimumSize(new java.awt.Dimension(450, 25));
@@ -76,13 +76,28 @@ public class EmployerScreen extends javax.swing.JFrame {
         menu.setRequestFocusEnabled(false);
 
         usuario1.setText("Usuario");
+        usuario1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuario1ActionPerformed(evt);
+            }
+        });
 
         usuarioNovo.setText("Novo");
         usuarioNovo.setEnabled(false);
+        usuarioNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuarioNovoActionPerformed(evt);
+            }
+        });
         usuario1.add(usuarioNovo);
 
         usuarioRemover.setText("Remover");
         usuarioRemover.setEnabled(false);
+        usuarioRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usuarioRemoverActionPerformed(evt);
+            }
+        });
         usuario1.add(usuarioRemover);
 
         menu.add(usuario1);
@@ -110,6 +125,11 @@ public class EmployerScreen extends javax.swing.JFrame {
         empregadoNovo.add(empregadoNovoAssalariado);
 
         empregadoNovoComissionado.setText("Comissionado");
+        empregadoNovoComissionado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empregadoNovoComissionadoActionPerformed(evt);
+            }
+        });
         empregadoNovo.add(empregadoNovoComissionado);
 
         empregado.add(empregadoNovo);
@@ -168,6 +188,11 @@ public class EmployerScreen extends javax.swing.JFrame {
         menu.add(pagamento);
 
         lancamento.setText("Lancamento");
+        lancamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lancamentoActionPerformed(evt);
+            }
+        });
 
         lancamentoCartaoPonto.setText("Cartao de Ponto");
         lancamentoCartaoPonto.addActionListener(new java.awt.event.ActionListener() {
@@ -177,11 +202,21 @@ public class EmployerScreen extends javax.swing.JFrame {
         });
         lancamento.add(lancamentoCartaoPonto);
 
-        lancamentoTaxaServico.setText("Taxa de servico");
-        lancamento.add(lancamentoTaxaServico);
-
         lancamentoResultadoVenda.setText("Resultado de Venda");
+        lancamentoResultadoVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lancamentoResultadoVendaActionPerformed(evt);
+            }
+        });
         lancamento.add(lancamentoResultadoVenda);
+
+        lancamentoTaxaServico.setText("Taxa Servico");
+        lancamentoTaxaServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lancamentoTaxaServicoActionPerformed(evt);
+            }
+        });
+        lancamento.add(lancamentoTaxaServico);
 
         menu.add(lancamento);
 
@@ -225,7 +260,7 @@ public class EmployerScreen extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(desktop)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -242,11 +277,12 @@ public class EmployerScreen extends javax.swing.JFrame {
         String warning = "Atenção";
         String message = "Tem certeza que deseja sair?";
         int logout = JOptionPane.showConfirmDialog(null, message, warning, JOptionPane.YES_NO_OPTION);
-        if(logout == JOptionPane.YES_OPTION) System.exit(0);
+        if (logout == JOptionPane.YES_OPTION)
+            System.exit(0);
     }//GEN-LAST:event_ajudaSairActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        
+
     }//GEN-LAST:event_formWindowActivated
 
     private void empregadoNovoAssalariadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoNovoAssalariadoActionPerformed
@@ -281,11 +317,13 @@ public class EmployerScreen extends javax.swing.JFrame {
     private void ajudaSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajudaSobreActionPerformed
         TelaSobre sobre = new TelaSobre();
         sobre.setVisible(true);
-        
+
     }//GEN-LAST:event_ajudaSobreActionPerformed
 
     private void lancamentoCartaoPontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancamentoCartaoPontoActionPerformed
-        // TODO add your handling code here:
+        CartaoPonto cartaoPonto = new CartaoPonto();
+        cartaoPonto.setVisible(true);
+        desktop.add(cartaoPonto);
     }//GEN-LAST:event_lancamentoCartaoPontoActionPerformed
 
     private void empregadoEditarComissionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoEditarComissionadoActionPerformed
@@ -295,6 +333,45 @@ public class EmployerScreen extends javax.swing.JFrame {
     private void agendaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaAlterarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_agendaAlterarActionPerformed
+
+    private void usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuario1ActionPerformed
+
+    }//GEN-LAST:event_usuario1ActionPerformed
+
+    private void usuarioNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioNovoActionPerformed
+        // aqui abre o formulario de usuarios
+        TelaUsuario telausuario = new TelaUsuario();
+        telausuario.setVisible(true);
+        desktop.add(telausuario);
+    }//GEN-LAST:event_usuarioNovoActionPerformed
+
+    private void usuarioRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuarioRemoverActionPerformed
+        TelaRemoverUsuario telaRemoverUsuario = new TelaRemoverUsuario();
+        telaRemoverUsuario.setVisible(true);
+        desktop.add(telaRemoverUsuario);
+    }//GEN-LAST:event_usuarioRemoverActionPerformed
+
+    private void empregadoNovoComissionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoNovoComissionadoActionPerformed
+        NewEmployeeComissionado newEmployeeComissionado = new NewEmployeeComissionado();
+        newEmployeeComissionado.setVisible(true);
+        this.desktop.add(newEmployeeComissionado);
+    }//GEN-LAST:event_empregadoNovoComissionadoActionPerformed
+
+    private void lancamentoResultadoVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancamentoResultadoVendaActionPerformed
+        ResultadoVenda resultadoVenda = new ResultadoVenda();
+        resultadoVenda.setVisible(true);
+        this.desktop.add(resultadoVenda);
+    }//GEN-LAST:event_lancamentoResultadoVendaActionPerformed
+
+    private void lancamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancamentoActionPerformed
+
+    }//GEN-LAST:event_lancamentoActionPerformed
+
+    private void lancamentoTaxaServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancamentoTaxaServicoActionPerformed
+        TaxaServico taxaServico = new TaxaServico();
+        taxaServico.setVisible(true);
+        this.desktop.add(taxaServico);
+    }//GEN-LAST:event_lancamentoTaxaServicoActionPerformed
 
     /**
      * @param args the command line arguments
