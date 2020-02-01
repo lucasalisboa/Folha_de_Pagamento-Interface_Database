@@ -1,9 +1,64 @@
 package br.com.p4folhapagamento.telas.employer;
 
+import br.com.p4folhapagamento.dal.MysqlManager;
+import java.awt.HeadlessException;
+import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import javax.inject.Inject;
+import java.net.URL;
+import java.sql.*;
+
 public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
+
+    @Inject
+    private MysqlManager mysqlManager;
+    private Connection connection = null;
+    private PreparedStatement pst = null;
+    private PreparedStatement pst2 = null;
+    private ResultSet rs = null;
 
     public NewEmployeeSalaried() {
         initComponents();
+        this.connection = new MysqlManager().getConnection();
+    }
+
+    private void adicionar() {
+        String sql = "insert into empregados(nome,endereco,metodo_pagamento,tipo_funcionario,pertence_sindicato) values(?,?,?,?,?)";
+        String sql2 = "inset into assalariado(salario,id_empregado) values(?,?)";
+
+        try {
+            this.pst = this.connection.prepareStatement(sql);
+            this.pst2 = this.connection.prepareStatement(sql2);
+
+            //aqui coloca na tabela empregados
+            this.pst.setString(2, this.nome.getText());
+            this.pst.setString(3, this.endereco.getText());
+            this.pst.setString(4, this.pagamento.getSelectedItem().toString());
+            this.pst.setString(5, "salariado");
+            this.pst.setString(6, this.sindicatoCheck.getActionCommand());
+
+            if (this.nome.getText().isEmpty() || (this.endereco.getText().isEmpty()) || (this.salario.getText().isEmpty())) {
+                JOptionPane.showMessageDialog(null, "Preencha os campos obrigatorios");
+            } else {
+                int adicionado = this.pst.executeUpdate();
+
+                //aqui coloca na tabela salario
+                String id_empregado = "select LAST_INSERT_ID from empregados";
+                this.pst2.setString(2, this.salario.getText());
+                this.pst2.setString(3, "%" + id_empregado + "%");
+                this.pst2.executeUpdate();
+
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario Adicionado com sucesso");
+                    this.nome.setText(null);
+                    this.endereco.setText(null);
+                    this.salario.setText(null);
+                    this.sindicatoCheck.setActionCommand(null);
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
     }
 
     /**
@@ -25,8 +80,6 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
         salarioLabel = new javax.swing.JLabel();
         salario = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
@@ -72,14 +125,13 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEnviar.setText("Enviar");
+        btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/iconfinder_sign-add_299068.png"))); // NOI18N
+        btnEnviar.setPreferredSize(new java.awt.Dimension(80, 80));
         btnEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("*ID:");
 
         jLabel2.setText("* Campos obrigatorios");
 
@@ -90,6 +142,8 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(salarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,19 +151,14 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
                                 .addComponent(nome)
                                 .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pagamentoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sindicatoCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pagamentoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(endereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                                    .addComponent(enderecoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                                .addComponent(salario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(salarioLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sindicatoCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(endereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                .addComponent(enderecoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                            .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -120,31 +169,29 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(enderecoLabel)
-                    .addComponent(jLabel1))
+                    .addComponent(nomeLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nomeLabel)
-                    .addComponent(salarioLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addComponent(pagamentoLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnviar))
-                .addGap(18, 18, 18)
-                .addComponent(sindicatoCheck)
-                .addGap(140, 140, 140))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(salarioLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
+                        .addComponent(pagamentoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(sindicatoCheck)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(222, 222, 222))
         );
 
-        setBounds(0, 0, 538, 325);
+        setBounds(0, 0, 538, 285);
     }// </editor-fold>//GEN-END:initComponents
 
     private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
@@ -164,7 +211,7 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_salarioActionPerformed
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        // TODO add your handling code here:
+        adicionar();
     }//GEN-LAST:event_btnEnviarActionPerformed
 
 
@@ -172,9 +219,7 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEnviar;
     private javax.swing.JTextField endereco;
     private javax.swing.JLabel enderecoLabel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField nome;
     private javax.swing.JLabel nomeLabel;
     private javax.swing.JComboBox<String> pagamento;
