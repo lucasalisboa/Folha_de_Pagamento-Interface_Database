@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.inject.Inject;
 import java.net.URL;
 import java.sql.*;
+import java.sql.Statement;
 
 public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
 
@@ -15,7 +16,6 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
     private Connection connection = null;
     private PreparedStatement pst = null;
     private PreparedStatement pst2 = null;
-    private ResultSet rs = null;
 
     public NewEmployeeSalaried() {
         initComponents();
@@ -24,36 +24,39 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
 
     private void adicionar() {
         String sql = "insert into empregados(nome,endereco,metodo_pagamento,tipo_funcionario,pertence_sindicato) values(?,?,?,?,?)";
-        String sql2 = "inset into assalariado(salario,id_empregado) values(?,?)";
+        String sql2 = "insert into assalariados(salario,id_empregado) values(?,?)";
 
         try {
-            this.pst = this.connection.prepareStatement(sql);
+            this.pst = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             this.pst2 = this.connection.prepareStatement(sql2);
 
             //aqui coloca na tabela empregados
-            this.pst.setString(2, this.nome.getText());
-            this.pst.setString(3, this.endereco.getText());
-            this.pst.setString(4, this.pagamento.getSelectedItem().toString());
-            this.pst.setString(5, "salariado");
-            this.pst.setString(6, this.sindicatoCheck.getActionCommand());
+            this.pst.setString(1, this.nome.getText());
+            this.pst.setString(2, this.endereco.getText());
+            this.pst.setString(3, this.pagamento.getSelectedItem().toString());
+            this.pst.setString(4, "salariado");
+            this.pst.setString(5, this.cboSindicato.getSelectedItem().toString());
 
             if (this.nome.getText().isEmpty() || (this.endereco.getText().isEmpty()) || (this.salario.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha os campos obrigatorios");
             } else {
+
                 int adicionado = this.pst.executeUpdate();
+                ResultSet rs = pst.getGeneratedKeys();
+                int id = 0;
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }
+                //aqui coloca na tabela assalario
+                this.pst2.setString(1, this.salario.getText());
+                this.pst2.setInt(2, id);
+                int adicionado2 = this.pst2.executeUpdate();
 
-                //aqui coloca na tabela salario
-                String id_empregado = "select LAST_INSERT_ID from empregados";
-                this.pst2.setString(2, this.salario.getText());
-                this.pst2.setString(3, "%" + id_empregado + "%");
-                this.pst2.executeUpdate();
-
-                if (adicionado > 0) {
+                if (adicionado > 0 && adicionado2 > 0) {
                     JOptionPane.showMessageDialog(null, "Usuario Adicionado com sucesso");
                     this.nome.setText(null);
                     this.endereco.setText(null);
                     this.salario.setText(null);
-                    this.sindicatoCheck.setActionCommand(null);
                 }
             }
         } catch (Exception e) {
@@ -76,11 +79,12 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
         endereco = new javax.swing.JTextField();
         pagamento = new javax.swing.JComboBox<>();
         pagamentoLabel = new javax.swing.JLabel();
-        sindicatoCheck = new javax.swing.JCheckBox();
         salarioLabel = new javax.swing.JLabel();
         salario = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        cboSindicato = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -110,13 +114,6 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
 
         pagamentoLabel.setText("*Forma de Pagamento:");
 
-        sindicatoCheck.setText("*Sindicalizado:");
-        sindicatoCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sindicatoCheckActionPerformed(evt);
-            }
-        });
-
         salarioLabel.setText("*Salário:");
 
         salario.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +132,10 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
 
         jLabel2.setText("* Campos obrigatorios");
 
+        cboSindicato.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sindicato", "Nao Sindicato" }));
+
+        jLabel1.setText("*Sindicato:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -142,8 +143,6 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(salarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,14 +150,19 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
                                 .addComponent(nome)
                                 .addComponent(nomeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pagamentoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(pagamentoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salarioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sindicatoCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(endereco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                                .addComponent(enderecoLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                            .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cboSindicato, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(endereco, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                .addComponent(enderecoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(33, 33, 33)
+                                    .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -174,24 +178,24 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(endereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salarioLabel)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboSindicato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addComponent(pagamentoLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(salarioLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(salario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addComponent(pagamentoLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sindicatoCheck)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(222, 222, 222))
+                    .addComponent(pagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(181, 181, 181))
         );
 
-        setBounds(0, 0, 538, 285);
+        setBounds(0, 0, 538, 336);
     }// </editor-fold>//GEN-END:initComponents
 
     private void nomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomeActionPerformed
@@ -201,10 +205,6 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
     private void pagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagamentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pagamentoActionPerformed
-
-    private void sindicatoCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sindicatoCheckActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sindicatoCheckActionPerformed
 
     private void salarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salarioActionPerformed
         // TODO add your handling code here:
@@ -217,8 +217,10 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JComboBox<String> cboSindicato;
     private javax.swing.JTextField endereco;
     private javax.swing.JLabel enderecoLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField nome;
     private javax.swing.JLabel nomeLabel;
@@ -226,6 +228,5 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
     private javax.swing.JLabel pagamentoLabel;
     private javax.swing.JTextField salario;
     private javax.swing.JLabel salarioLabel;
-    private javax.swing.JCheckBox sindicatoCheck;
     // End of variables declaration//GEN-END:variables
 }
