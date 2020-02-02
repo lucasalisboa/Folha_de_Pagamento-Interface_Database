@@ -24,7 +24,7 @@ public class EditEmployeeHourly extends javax.swing.JInternalFrame {
 
     private void busca() {
         String sql = "select * from empregados where id_empregado = ?";
-        String sql2 = "select * from horistas where id_empregado = ?";
+        String sql2 = "select * from horista where id_empregado = ?";
 
         try {
             // aqui para tabela empregados
@@ -58,7 +58,7 @@ public class EditEmployeeHourly extends javax.swing.JInternalFrame {
 
     private void alterar() {
         String sql = "update empregados set nome = ?, endereco = ?, metodo_pagamento = ?, pertence_sindicato = ? where id_empregado = ?";
-        String sql2 = "update horistas set hora_salario=? where id_empregado = ?";
+        String sql2 = "update horista set hora_salario=? where id_empregado = ?";
 
         try {
             // arrumando Empregado

@@ -24,7 +24,7 @@ public class EditEmployeeSalaried extends javax.swing.JInternalFrame {
 
     private void busca() {
         String sql = "select * from empregados where id_empregado = ?";
-        String sql2 = "select * from assalariados where id_empregado = ?";
+        String sql2 = "select * from assalariado where id_empregado = ?";
 
         try {
             // aqui para tabela empregados
@@ -58,7 +58,7 @@ public class EditEmployeeSalaried extends javax.swing.JInternalFrame {
 
     private void alterar() {
         String sql = "update empregados set nome = ?, endereco = ?, metodo_pagamento = ?, pertence_sindicato = ? where id_empregado = ?";
-        String sql2 = "update assalariados set salario=? where id_empregado = ?";
+        String sql2 = "update assalariado set salario=? where id_empregado = ?";
 
         try {
             // arrumando Empregado

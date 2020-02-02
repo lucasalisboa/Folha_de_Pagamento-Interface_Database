@@ -24,7 +24,7 @@ public class EditEmployeeComissionado extends javax.swing.JInternalFrame {
 
     private void busca() {
         String sql = "select * from empregados where id_empregado = ?";
-        String sql2 = "select * from comissionados where id_empregado = ?";
+        String sql2 = "select * from comissionado where id_empregado = ?";
 
         try {
             // aqui para tabela empregados
@@ -60,7 +60,7 @@ public class EditEmployeeComissionado extends javax.swing.JInternalFrame {
 
     private void alterar() {
         String sql = "update empregados set nome = ?, endereco = ?, metodo_pagamento = ?, pertence_sindicato = ? where id_empregado = ?";
-        String sql2 = "update comissionados set salario=?, taxa_venda = ? where id_empregado = ?";
+        String sql2 = "update comissionado set salario=?, taxa_venda = ? where id_empregado = ?";
 
         try {
             // arrumando Empregado
@@ -205,9 +205,9 @@ public class EditEmployeeComissionado extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)

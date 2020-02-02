@@ -1,8 +1,8 @@
 package br.com.p4folhapagamento.telas.employer;
 
-public class RemoveEmployer extends javax.swing.JInternalFrame {
+public class RemoveUsuario extends javax.swing.JInternalFrame {
 
-    public RemoveEmployer() {
+    public RemoveUsuario() {
         initComponents();
     }
 

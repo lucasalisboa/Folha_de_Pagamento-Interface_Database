@@ -23,7 +23,7 @@ public class NewEmployeeComissionado extends javax.swing.JInternalFrame {
 
     private void adicionar() {
         String sql = "insert into empregados(nome,endereco,metodo_pagamento,tipo_funcionario,pertence_sindicato) values(?,?,?,?,?)";
-        String sql2 = "insert into comissionados(salario,taxa_venda,id_empregado) values(?,?,?)";
+        String sql2 = "insert into comissionado(salario,taxa_venda,id_empregado) values(?,?,?)";
 
         try {
             this.pst = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

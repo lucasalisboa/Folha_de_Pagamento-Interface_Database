@@ -24,7 +24,7 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
 
     private void adicionar() {
         String sql = "insert into empregados(nome,endereco,metodo_pagamento,tipo_funcionario,pertence_sindicato) values(?,?,?,?,?)";
-        String sql2 = "insert into assalariados(salario,id_empregado) values(?,?)";
+        String sql2 = "insert into assalariado(salario,id_empregado) values(?,?)";
 
         try {
             this.pst = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -34,7 +34,7 @@ public class NewEmployeeSalaried extends javax.swing.JInternalFrame {
             this.pst.setString(1, this.nome.getText());
             this.pst.setString(2, this.endereco.getText());
             this.pst.setString(3, this.pagamento.getSelectedItem().toString());
-            this.pst.setString(4, "salariado");
+            this.pst.setString(4, "assalariado");
             this.pst.setString(5, this.cboSindicato.getSelectedItem().toString());
 
             if (this.nome.getText().isEmpty() || (this.endereco.getText().isEmpty()) || (this.salario.getText().isEmpty())) {
