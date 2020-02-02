@@ -327,7 +327,9 @@ public class EmployerScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_lancamentoCartaoPontoActionPerformed
 
     private void empregadoEditarComissionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoEditarComissionadoActionPerformed
-        // TODO add your handling code here:
+         EditEmployeeComissionado editEmployeeComissionado= new EditEmployeeComissionado();
+         editEmployeeComissionado.setVisible(true);
+         this.desktop.add(editEmployeeComissionado);
     }//GEN-LAST:event_empregadoEditarComissionadoActionPerformed
 
     private void agendaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaAlterarActionPerformed
