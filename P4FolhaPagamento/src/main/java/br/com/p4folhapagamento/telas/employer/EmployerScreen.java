@@ -42,7 +42,6 @@ public class EmployerScreen extends javax.swing.JFrame {
         lancamento = new javax.swing.JMenu();
         lancamentoCartaoPonto = new javax.swing.JMenuItem();
         lancamentoResultadoVenda = new javax.swing.JMenuItem();
-        lancamentoTaxaServico = new javax.swing.JMenuItem();
         agenda = new javax.swing.JMenu();
         agendaAlterar = new javax.swing.JMenuItem();
         ajuda = new javax.swing.JMenu();
@@ -210,14 +209,6 @@ public class EmployerScreen extends javax.swing.JFrame {
         });
         lancamento.add(lancamentoResultadoVenda);
 
-        lancamentoTaxaServico.setText("Taxa Servico");
-        lancamentoTaxaServico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lancamentoTaxaServicoActionPerformed(evt);
-            }
-        });
-        lancamento.add(lancamentoTaxaServico);
-
         menu.add(lancamento);
 
         agenda.setText("Agenda");
@@ -369,12 +360,6 @@ public class EmployerScreen extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lancamentoActionPerformed
 
-    private void lancamentoTaxaServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lancamentoTaxaServicoActionPerformed
-        TaxaServico taxaServico = new TaxaServico();
-        taxaServico.setVisible(true);
-        this.desktop.add(taxaServico);
-    }//GEN-LAST:event_lancamentoTaxaServicoActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -433,7 +418,6 @@ public class EmployerScreen extends javax.swing.JFrame {
     private javax.swing.JMenu lancamento;
     private javax.swing.JMenuItem lancamentoCartaoPonto;
     private javax.swing.JMenuItem lancamentoResultadoVenda;
-    private javax.swing.JMenuItem lancamentoTaxaServico;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu pagamento;
     private javax.swing.JMenuItem pagamentoPagar;

@@ -1,21 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.p4folhapagamento.telas.employer;
 
-/**
- *
- * @author Usuário
- */
-public class CartaoPonto extends javax.swing.JInternalFrame {
+import br.com.p4folhapagamento.dal.MysqlManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import javax.inject.Inject;
 
-    /**
-     * Creates new form CartaoPonto
-     */
+public class CartaoPonto extends javax.swing.JInternalFrame {
+    @Inject
+    private MysqlManager mysqlManager;
+    private Connection connection = null;
+    private PreparedStatement pst = null;
+    private PreparedStatement pst2 = null;
+
     public CartaoPonto() {
         initComponents();
+        this.connection = new MysqlManager().getConnection();
     }
 
     /**
