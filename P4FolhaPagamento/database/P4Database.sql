@@ -1,15 +1,19 @@
-create database P4Database;
+#create database P4Database;
 use P4Database;
 
 create table usuarios(
 	id_usuario int primary key auto_increment, 
 	usuario varchar(15) not null unique, 
 	senha varchar(15) not null,
-    tipo_usuario ENUM("1", "2") not null
+    tipo_usuario varchar(15) not null
 );
 
-insert into usuarios(usuario, senha, tipo_usuario) values ("admin", "admin", "1");
-insert into usuarios(usuario, senha, tipo_usuario) values ("", "", "1");
+describe usuarios;
+select * from usuarios;
+
+insert into usuarios(usuario, senha, tipo_usuario) values ("admin", "admin", "admin");
+insert into usuarios(usuario, senha, tipo_usuario) values ("", "", "admin");
+insert into usuarios(usuario, senha, tipo_usuario) values ("jeremias", "123", "user");
 
 create table empregados(
 	id_empregado int primary key auto_increment, 
@@ -17,10 +21,12 @@ create table empregados(
 	endereco varchar (50) not null, 
 	metodo_pagamento varchar(50) not null, 
 	tipo_funcionario varchar(50) not null, 
-	pertence_sindicato tinyint(1) not null,tipo_usuario
-    id_usuario int not null unique,
-	foreign key (id_usuario) references usuarios(id_usuario)
+	pertence_sindicato varchar(50) not null
 );
+DELETE FROM empregados WHERE id_empregado = 6;
+select max(id_empregado) from empregados;
+select * from empregados;
+describe empregados;
 
 create table horistas(
 	id_horista int key primary key auto_increment, 
@@ -29,7 +35,7 @@ create table horistas(
 	id_empregado int not null unique, 
 	foreign key (id_empregado) references empregados(id_empregado)
 );
-
+select * from assalariados;
 create table assalariados (
 	id_assalariado int key primary key auto_increment, 
 	salario decimal(10, 2) not null, 
