@@ -1,17 +1,12 @@
 package br.com.p4folhapagamento.telas.employer;
 
 import br.com.p4folhapagamento.dal.MysqlManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.inject.Inject;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 public class NewEmployeeHourly extends javax.swing.JInternalFrame {
 
-    @Inject
-    private MysqlManager mysqlManager;
     private Connection connection = null;
     private PreparedStatement pst = null;
     private PreparedStatement pst2 = null;
@@ -22,22 +17,22 @@ public class NewEmployeeHourly extends javax.swing.JInternalFrame {
     }
 
     private void adicionar() {
-        String sql = "insert into empregados(nome,endereco,metodo_pagamento,tipo_funcionario,pertence_sindicato) values(?,?,?,?,?)";
+        String sql = "insert into empregados(nome,endereco,metodo_pagamento,tipo_funcionario,pertence_sindicato,data_pagamento) values(?,?,?,?,?,?)";
         String sql2 = "insert into horista(hora_salario,id_empregado) values(?,?)";
 
         try {
             this.pst = this.connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             this.pst2 = this.connection.prepareStatement(sql2);
 
-            //aqui coloca na tabela empregados
             this.pst.setString(1, this.txtHoristaNome.getText());
             this.pst.setString(2, this.endereco.getText());
             this.pst.setString(3, this.cboPagamento.getSelectedItem().toString());
             this.pst.setString(4, "horista");
             this.pst.setString(5, this.cboSindicato.getSelectedItem().toString());
+            this.pst.setString(6, "1");
 
             if (this.txtHoristaNome.getText().isEmpty() || (this.endereco.getText().isEmpty()) || (this.salario.getText().isEmpty())) {
-                JOptionPane.showMessageDialog(null, "Preencha os campos obrigatorios");
+                JOptionPane.showMessageDialog(null, "Preencha os campos obrigatórios");
             } else {
 
                 int adicionado = this.pst.executeUpdate();
@@ -46,19 +41,18 @@ public class NewEmployeeHourly extends javax.swing.JInternalFrame {
                 if (rs.next()) {
                     id = rs.getInt(1);
                 }
-                //aqui coloca na tabela assalario
                 this.pst2.setString(1, this.salario.getText());
                 this.pst2.setInt(2, id);
                 int adicionado2 = this.pst2.executeUpdate();
 
                 if (adicionado > 0 && adicionado2 > 0) {
-                    JOptionPane.showMessageDialog(null, "Usuario Adicionado com sucesso");
+                    JOptionPane.showMessageDialog(null, "Usuário adicionado com sucesso");
                     this.txtHoristaNome.setText(null);
                     this.endereco.setText(null);
                     this.salario.setText(null);
                 }
             }
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }

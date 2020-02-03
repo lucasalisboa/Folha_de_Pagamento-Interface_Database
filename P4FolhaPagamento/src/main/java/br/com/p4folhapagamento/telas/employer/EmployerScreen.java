@@ -1,13 +1,14 @@
 package br.com.p4folhapagamento.telas.employer;
 
 import javax.swing.JOptionPane;
+import java.time.LocalDate;
 
 public class EmployerScreen extends javax.swing.JFrame {
 
-    private final String usuario;
+    private LocalDate localDate;
 
-    public EmployerScreen(String usuario) {
-        this.usuario = usuario;
+    public EmployerScreen(LocalDate localDate) {
+        this.localDate = localDate;
         initComponents();
     }
 
@@ -177,6 +178,11 @@ public class EmployerScreen extends javax.swing.JFrame {
 
         pagamentoPagar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         pagamentoPagar.setText("Pagar");
+        pagamentoPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pagamentoPagarActionPerformed(evt);
+            }
+        });
         pagamento.add(pagamentoPagar);
 
         pagamentoRelatorios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
@@ -317,13 +323,15 @@ public class EmployerScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_lancamentoCartaoPontoActionPerformed
 
     private void empregadoEditarComissionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoEditarComissionadoActionPerformed
-         EditEmployeeComissionado editEmployeeComissionado= new EditEmployeeComissionado();
-         editEmployeeComissionado.setVisible(true);
-         this.desktop.add(editEmployeeComissionado);
+        EditEmployeeComissionado editEmployeeComissionado= new EditEmployeeComissionado();
+        editEmployeeComissionado.setVisible(true);
+        this.desktop.add(editEmployeeComissionado);
     }//GEN-LAST:event_empregadoEditarComissionadoActionPerformed
 
     private void agendaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaAlterarActionPerformed
-        // TODO add your handling code here:
+        EditarAgenda editarAgenda = new EditarAgenda();
+        editarAgenda.setVisible(true);
+        this.desktop.add(editarAgenda);
     }//GEN-LAST:event_agendaAlterarActionPerformed
 
     private void usuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuario1ActionPerformed
@@ -359,6 +367,12 @@ public class EmployerScreen extends javax.swing.JFrame {
 
     }//GEN-LAST:event_lancamentoActionPerformed
 
+    private void pagamentoPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagamentoPagarActionPerformed
+        Pagamento pagamento = new Pagamento(this.localDate);
+        pagamento.setVisible(true);
+        this.desktop.add(pagamento);
+    }//GEN-LAST:event_pagamentoPagarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -392,7 +406,7 @@ public class EmployerScreen extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EmployerScreen("").setVisible(true);
+                new EmployerScreen(LocalDate.now()).setVisible(true);
             }
         });
     }

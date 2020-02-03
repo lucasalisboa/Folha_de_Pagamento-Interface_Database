@@ -5,14 +5,12 @@ import br.com.p4folhapagamento.dal.MysqlManager;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
-import javax.inject.Inject;
+import java.time.LocalDate;
 import java.net.URL;
 import java.sql.*;
 
 public class LoginScreen extends javax.swing.JFrame {
 
-    @Inject
-    private MysqlManager mysqlManager;
     private Connection connection = null;
     private PreparedStatement pst = null;
     private ResultSet rs = null;
@@ -48,14 +46,14 @@ public class LoginScreen extends javax.swing.JFrame {
 
                 if (this.rs.next()) {
                     if (this.rs.getString(4).equals("admin")) {
-                        new EmployerScreen(this.rs.getString(2)).setVisible(true);
+                        new EmployerScreen(LocalDate.now()).setVisible(true);
                         EmployerScreen.empregadoEditar.setEnabled(true);
                         EmployerScreen.empregadoNovo.setEnabled(true);
                         EmployerScreen.empregadoRemover.setEnabled(true);
                         EmployerScreen.usuarioNovo.setEnabled(true);
                         EmployerScreen.usuarioRemover.setEnabled(true);
                     } else {
-                        new EmployerScreen(this.rs.getString(2)).setVisible(true);
+                        new EmployerScreen(LocalDate.now()).setVisible(true);
                     }
                     this.dispose();
                     this.connection.close();

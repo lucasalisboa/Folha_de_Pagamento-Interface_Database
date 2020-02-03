@@ -154,6 +154,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Pagar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pagamentoPagarActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="pagamentoRelatorios">
               <Properties>
