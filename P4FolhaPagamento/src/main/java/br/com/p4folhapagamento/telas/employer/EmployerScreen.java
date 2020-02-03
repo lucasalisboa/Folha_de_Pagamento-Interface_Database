@@ -1,6 +1,5 @@
 package br.com.p4folhapagamento.telas.employer;
 
-import br.com.p4folhapagamento.telas.all.About;
 import javax.swing.JOptionPane;
 
 public class EmployerScreen extends javax.swing.JFrame {

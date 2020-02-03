@@ -17,8 +17,6 @@ public class RemoveEmployee extends javax.swing.JInternalFrame {
     private PreparedStatement pst2 = null;
     private PreparedStatement pst3 = null;
     private ResultSet rs = null;
-    private ResultSet rs2 = null;
-    private ResultSet rs3 = null;
 
     public RemoveEmployee() {
         initComponents();
@@ -87,7 +85,7 @@ public class RemoveEmployee extends javax.swing.JInternalFrame {
             int apagado2 = this.pst3.executeUpdate();
 
             if (this.rs.next() && (apagado2 > 0)) {
-                JOptionPane.showMessageDialog(null, "usuario removido com sucesso");
+                JOptionPane.showMessageDialog(null, "empregado removido com sucesso");
                 this.txtNome.setText(null);
                 this.txtEndereco.setText(null);
                 this.txtPagamento.setText(null);
