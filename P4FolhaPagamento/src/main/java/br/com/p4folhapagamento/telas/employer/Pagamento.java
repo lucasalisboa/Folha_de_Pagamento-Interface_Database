@@ -38,7 +38,8 @@ public class Pagamento extends javax.swing.JInternalFrame {
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja realizar os pagamentos?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
             if (this.nPagamentos.getText().equals("0")) {
-                JOptionPane.showMessageDialog(null, "Que maravilha, não preciso pagar!\nOBS: Data atualizada");
+                JOptionPane.showMessageDialog(null, "Nenhum pagamento realizado" +
+"                JOptionPane.showMessageDialog(null, \"ada");
             } else {
                 JOptionPane.showMessageDialog(null, "Pagamentos realizados!\nOBS: Data atualizada");
             }
