@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public class EmployerScreen extends javax.swing.JFrame {
 
-    private LocalDate localDate;
+    public static LocalDate localDate;
 
     public EmployerScreen(LocalDate localDate) {
         this.localDate = localDate;
@@ -368,7 +368,7 @@ public class EmployerScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_lancamentoActionPerformed
 
     private void pagamentoPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagamentoPagarActionPerformed
-        Pagamento pagamento = new Pagamento(this.localDate);
+        Pagamento pagamento = new Pagamento();
         pagamento.setVisible(true);
         this.desktop.add(pagamento);
     }//GEN-LAST:event_pagamentoPagarActionPerformed

@@ -1,9 +1,7 @@
 package br.com.p4folhapagamento.dal;
 
 import java.sql.*;
-import javax.inject.Named;
 
-@Named
 public class MysqlManager {
     private static Connection connection;
     private static final String pass = "root123";

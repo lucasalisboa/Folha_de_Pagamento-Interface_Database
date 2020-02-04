@@ -3,7 +3,6 @@ package br.com.p4folhapagamento.telas.employer;
 import br.com.p4folhapagamento.dal.MysqlManager;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
-import java.time.LocalDate;
 import java.sql.*;
 
 public class Pagamento extends javax.swing.JInternalFrame {
@@ -11,12 +10,10 @@ public class Pagamento extends javax.swing.JInternalFrame {
     private Connection connection = null;
     private PreparedStatement pst = null;
     private ResultSet rs = null;
-    private LocalDate localDate;
 
-    public Pagamento(LocalDate localDate) {
+    public Pagamento() {
         initComponents();
-        this.localDate = localDate;
-        this.data.setText(this.localDate.toString());
+        this.data.setText(EmployerScreen.localDate.toString());
         this.connection = new MysqlManager().getConnection();
         busca();
     }
@@ -25,7 +22,7 @@ public class Pagamento extends javax.swing.JInternalFrame {
         try {
             String sql = "select count(data_pagamento) from empregados where data_pagamento = ?";
             this.pst = this.connection.prepareStatement(sql);
-            this.pst.setString(1, "" + this.localDate.getDayOfMonth());
+            this.pst.setString(1, "" + EmployerScreen.localDate.getDayOfMonth());
             this.rs = pst.executeQuery();
             if (this.rs.next()) {
                 this.nPagamentos.setText(rs.getString(1));
@@ -45,8 +42,8 @@ public class Pagamento extends javax.swing.JInternalFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Pagamentos realizados!\nOBS: Data atualizada");
             }
-            this.localDate = this.localDate.plusDays(1);
-            this.data.setText(this.localDate.toString());
+            EmployerScreen.localDate = EmployerScreen.localDate.plusDays(1);
+            this.data.setText(EmployerScreen.localDate.toString());
             busca();
         }
     }
