@@ -2,6 +2,7 @@ package br.com.p4folhapagamento.telas.employer;
 
 import br.com.p4folhapagamento.dal.MysqlManager;
 import java.awt.HeadlessException;
+import net.proteanit.sql.DbUtils;
 import javax.swing.JOptionPane;
 import java.sql.*;
 
@@ -20,15 +21,14 @@ public class Pagamento extends javax.swing.JInternalFrame {
 
     private void busca() {
         try {
-            String sql = "select count(data_pagamento) from empregados where data_pagamento = ?";
+            String sql = "select e.nome as 'Nome', e.tipo_funcionario as 'Empregado', a.salario as 'Pagamento' from empregados e, assalariado a where e.id_empregado = a.id_empregado and e.data_pagamento = ? union select e.nome as 'Nome', e.tipo_funcionario as 'Empregado', (c.salario + c.total_vendas) as 'Pagamento' from empregados e, comissionado c where e.id_empregado = c.id_empregado and e.data_pagamento = ? union select e.nome as 'Nome', e.tipo_funcionario as 'Empregado', h.salario as 'Pagamento' from empregados e, horista h where e.id_empregado = h.id_empregado and e.data_pagamento = ?";
+            String dayOfMonth = "" + EmployerScreen.localDate.getDayOfMonth();
             this.pst = this.connection.prepareStatement(sql);
-            this.pst.setString(1, "" + EmployerScreen.localDate.getDayOfMonth());
+            this.pst.setString(1, dayOfMonth);
+            this.pst.setString(2, dayOfMonth);
+            this.pst.setString(3, dayOfMonth);
             this.rs = pst.executeQuery();
-            if (this.rs.next()) {
-                this.nPagamentos.setText(rs.getString(1));
-            } else {
-                this.nPagamentos.setText("0");
-            }
+            this.tabela.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -37,11 +37,28 @@ public class Pagamento extends javax.swing.JInternalFrame {
     private void pagar() {
         int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja realizar os pagamentos?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
-            if (this.nPagamentos.getText().equals("0")) {
-                JOptionPane.showMessageDialog(null, "Nenhum pagamento realizado" +
-"                JOptionPane.showMessageDialog(null, \"ada");
+            if (this.tabela.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Nenhum pagamento realizado!\nOBS: Data atualizada");
             } else {
-                JOptionPane.showMessageDialog(null, "Pagamentos realizados!\nOBS: Data atualizada");
+                try {
+                    String sql1 = "update horista h, empregados e set h.salario = ? where e.id_empregado = h.id_empregado and e.data_pagamento = ?";
+                    String sql2 = "update comissionado c, empregados e set c.total_vendas = ? where e.id_empregado = c.id_empregado and e.data_pagamento = ?";
+                    this.pst = this.connection.prepareStatement(sql1);
+                    this.pst.setString(1, "0");
+                    this.pst.setString(2, "" + EmployerScreen.localDate.getDayOfMonth());
+                    int atualizadoHorista = pst.executeUpdate();
+                    
+                    this.pst = this.connection.prepareStatement(sql2);
+                    this.pst.setString(1, "0");
+                    this.pst.setString(2, "" + EmployerScreen.localDate.getDayOfMonth());
+                    
+                    int atualizadoComissionado = pst.executeUpdate();
+                    if (atualizadoHorista > 0 && atualizadoComissionado > 0) {
+                        JOptionPane.showMessageDialog(null, "Pagamentos realizados!\nOBS: Data atualizada");
+                    }
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
             }
             EmployerScreen.localDate = EmployerScreen.localDate.plusDays(1);
             this.data.setText(EmployerScreen.localDate.toString());
@@ -57,8 +74,8 @@ public class Pagamento extends javax.swing.JInternalFrame {
         btnBusca = new javax.swing.JButton();
         dataLabel = new javax.swing.JLabel();
         data = new javax.swing.JLabel();
-        nPagamentos = new javax.swing.JLabel();
-        nPagamentosLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabela = new javax.swing.JTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -92,55 +109,87 @@ public class Pagamento extends javax.swing.JInternalFrame {
         data.setText("-1");
         data.setToolTipText("");
 
-        nPagamentos.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        nPagamentos.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nPagamentos.setText("-1");
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Nome", "Empregado", "Pagamento"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
-        nPagamentosLabel.setText("Empregados:");
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabela.setEditingColumn(0);
+        tabela.setEditingRow(0);
+        tabela.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabela);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(73, 73, 73)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(nPagamentosLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(73, 73, 73))
             .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(dataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                                .addComponent(btnBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(50, 50, 50))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(dataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(data, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dataLabel)
                     .addComponent(data))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nPagamentosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
-        setBounds(0, 0, 326, 260);
+        setBounds(0, 0, 600, 400);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
@@ -157,7 +206,7 @@ public class Pagamento extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnPagar;
     private javax.swing.JLabel data;
     private javax.swing.JLabel dataLabel;
-    private javax.swing.JLabel nPagamentos;
-    private javax.swing.JLabel nPagamentosLabel;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }

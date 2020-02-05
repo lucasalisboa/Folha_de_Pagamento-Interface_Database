@@ -1,16 +1,12 @@
 package br.com.p4folhapagamento.telas.employer;
 
 import br.com.p4folhapagamento.dal.MysqlManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.inject.Inject;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 public class ResultadoVenda extends javax.swing.JInternalFrame {
 
-    @Inject
-    private MysqlManager mysqlManager;
     private Connection connection = null;
     private PreparedStatement pst = null;
     private PreparedStatement pst2 = null;
@@ -27,7 +23,6 @@ public class ResultadoVenda extends javax.swing.JInternalFrame {
         String sql2 = "select * from comissionado where id_empregado = ?";
 
         try {
-            // aqui para tabela comissionado
             this.pst2 = this.connection.prepareStatement(sql2);
             this.pst2.setString(1, txtId.getText());
             this.rs2 = pst2.executeQuery();
@@ -48,15 +43,15 @@ public class ResultadoVenda extends javax.swing.JInternalFrame {
                     this.pst.setString(1, Double.toString(total_vendas2));
                     this.pst.setString(2, this.txtId.getText());
                     this.pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Resultado de Venda adicionado com sucesso");
+                    JOptionPane.showMessageDialog(null, "Resultado de venda adicionado com sucesso");
                 } else {
                     JOptionPane.showMessageDialog(null, "Falta preencher o campo da venda adicionada");
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "Empregado nao encontrado");
+                JOptionPane.showMessageDialog(null, "Empregado inexistente");
             }
-        } catch (Exception e) {
+        } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -66,25 +61,22 @@ public class ResultadoVenda extends javax.swing.JInternalFrame {
         String sql2 = "select * from comissionado where id_empregado = ?";
 
         try {
-            // aqui para tabela empregados
             this.pst = this.connection.prepareStatement(sql);
             this.pst.setString(1, txtId.getText());
             this.rs = pst.executeQuery();
 
-            // aqui para tabela horistas
             this.pst2 = this.connection.prepareStatement(sql2);
             this.pst2.setString(1, txtId.getText());
             this.rs2 = pst2.executeQuery();
 
-            //caso exista esse usuario tem que setar os campos
             if (this.rs.next() && this.rs2.next()) {
                 this.txtNome.setText(rs.getString(2));
                 this.txtIdComissionado.setText(rs2.getString(1));
             } else {
-                JOptionPane.showMessageDialog(null, "Empregado nao encontrado");
+                JOptionPane.showMessageDialog(null, "Empregado inexistente");
                 this.txtNome.setText(null);
             }
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -111,9 +103,9 @@ public class ResultadoVenda extends javax.swing.JInternalFrame {
         setTitle("Resultado de Venda");
         setToolTipText("");
 
-        jLabel1.setText("*ID Empregado:");
+        jLabel1.setText("*ID Empregado");
 
-        jLabel2.setText("*Venda:");
+        jLabel2.setText("*Venda");
 
         btnEnviar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/iconfinder_sign-add_299068.png"))); // NOI18N
         btnEnviar.setToolTipText("Enviar");
@@ -125,9 +117,11 @@ public class ResultadoVenda extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setText("* Campos Obrigatorios");
+        jLabel3.setText("*Campos obrigatórios");
 
-        jLabel4.setText("Id Comissionado:");
+        jLabel4.setText("ID Comissionado");
+
+        txtIdComissionado.setFocusable(false);
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/iconfinder_.svg_2093656.png"))); // NOI18N
         btnBuscar.setToolTipText("Buscar");
@@ -139,57 +133,66 @@ public class ResultadoVenda extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setText("Nome:");
+        jLabel5.setText("Nome do Empregado");
+
+        txtNome.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(txtId, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                    .addComponent(txtVenda)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel4)
-                        .addComponent(txtIdComissionado, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
-                        .addComponent(txtNome)
-                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(66, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                .addComponent(txtId)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtVenda))
+                            .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(100, 100, 100)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                .addComponent(txtNome)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtIdComissionado))
+                            .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(50, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(25, 25, 25)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIdComissionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtIdComissionado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
 
         pack();

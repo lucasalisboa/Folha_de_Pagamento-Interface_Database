@@ -27,7 +27,7 @@ public class NewEmployeeHourly extends javax.swing.JInternalFrame {
             this.pst.setString(1, this.txtHoristaNome.getText());
             this.pst.setString(2, this.endereco.getText());
             this.pst.setString(3, this.cboPagamento.getSelectedItem().toString());
-            this.pst.setString(4, "horista");
+            this.pst.setString(4, "Horista");
             this.pst.setString(5, this.cboSindicato.getSelectedItem().toString());
             this.pst.setString(6, "1");
 

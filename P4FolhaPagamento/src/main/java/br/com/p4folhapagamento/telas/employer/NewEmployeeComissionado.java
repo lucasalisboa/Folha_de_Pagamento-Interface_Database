@@ -27,7 +27,7 @@ public class NewEmployeeComissionado extends javax.swing.JInternalFrame {
             this.pst.setString(1, this.nome.getText());
             this.pst.setString(2, this.endereco.getText());
             this.pst.setString(3, this.cboPagamento.getSelectedItem().toString());
-            this.pst.setString(4, "comissionado");
+            this.pst.setString(4, "Comissionado");
             this.pst.setString(5, this.cboSindicato.getSelectedItem().toString());
             this.pst.setString(6, "1");
 

@@ -1,16 +1,12 @@
 package br.com.p4folhapagamento.telas.employer;
 
 import br.com.p4folhapagamento.dal.MysqlManager;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import javax.inject.Inject;
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
+import java.sql.*;
 
 public class CartaoPonto extends javax.swing.JInternalFrame {
 
-    @Inject
-    private MysqlManager mysqlManager;
     private Connection connection = null;
     private PreparedStatement pst = null;
     private PreparedStatement pst2 = null;
@@ -23,37 +19,38 @@ public class CartaoPonto extends javax.swing.JInternalFrame {
     }
 
     private void cartaoPonto() {
-        String sql = "update horista set hora=? where id_empregado=?";
+        String sql = "update horista set salario=? where id_empregado=?";
         String sql2 = "select * from horista where id_empregado = ?";
 
         try {
-            // aqui para tabela horistas
             this.pst2 = this.connection.prepareStatement(sql2);
             this.pst2.setString(1, txtId.getText());
             this.rs2 = pst2.executeQuery();
 
             if (this.rs2.next()) {
-                String valor_hora = this.txtHora.getText();
-                String horas = this.rs2.getString(3);
+                String total_horas = this.txtHora.getText();
+                String salario_hora = this.rs2.getString(2);
+                String salario = this.rs2.getString(3);
 
-                if (!valor_hora.equals("")) {
-                    int total = Integer.parseInt(horas);
-                    int hora = Integer.parseInt(valor_hora);
-                    total += hora;
+                if (!total_horas.equals("")) {
+                    double total_horas_aux = Double.parseDouble(salario_hora);
+                    double salario_hora_aux = Double.parseDouble(total_horas);
+                    double salario_aux = Double.parseDouble(salario);
+                    salario_aux = salario_aux + (total_horas_aux * salario_hora_aux);
 
                     this.pst = this.connection.prepareStatement(sql);
-                    this.pst.setString(1,Integer.toString(total));
+                    this.pst.setString(1, Double.toString(salario_aux));
                     this.pst.setString(2, this.txtId.getText());
                     this.pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Horas Adicionada com sucesso");
-                }else{
+                    JOptionPane.showMessageDialog(null, "Horas adicionadas com sucesso");
+                } else {
                     JOptionPane.showMessageDialog(null, "Falta preencher o campo das horas adicionadas");
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "Empregado nao encontrado");
+                JOptionPane.showMessageDialog(null, "Empregado inexistente");
             }
-        } catch (Exception e) {
+        } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -63,25 +60,22 @@ public class CartaoPonto extends javax.swing.JInternalFrame {
         String sql2 = "select * from horista where id_empregado = ?";
 
         try {
-            // aqui para tabela empregados
             this.pst = this.connection.prepareStatement(sql);
             this.pst.setString(1, txtId.getText());
             this.rs = pst.executeQuery();
 
-            // aqui para tabela horistas
             this.pst2 = this.connection.prepareStatement(sql2);
             this.pst2.setString(1, txtId.getText());
             this.rs2 = pst2.executeQuery();
 
-            //caso exista esse usuario tem que setar os campos
             if (this.rs.next() && this.rs2.next()) {
                 this.txtNome.setText(rs.getString(2));
                 this.txtIdHorista.setText(rs2.getString(1));
             } else {
-                JOptionPane.showMessageDialog(null, "Empregado nao encontrado");
+                JOptionPane.showMessageDialog(null, "Empregado inexistente");
                 this.txtNome.setText(null);
             }
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
@@ -107,9 +101,9 @@ public class CartaoPonto extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Cartao de Ponto");
 
-        jLabel1.setText("*ID Empregado:");
+        jLabel1.setText("*ID Empregado");
 
-        jLabel2.setText("*Quantidade de Horas Trabalhadas:");
+        jLabel2.setText("*Nº de Horas Trabalhadas");
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/iconfinder_sign-add_299068.png"))); // NOI18N
         jButton1.setToolTipText("Adicionar");
@@ -121,9 +115,11 @@ public class CartaoPonto extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel3.setText("*Campos Obrigatorios");
+        jLabel3.setText("*Campos obrigatórios");
 
-        jLabel4.setText("Nome do Empregado:");
+        jLabel4.setText("Nome do Empregado");
+
+        txtNome.setFocusable(false);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/iconfinder_.svg_2093656.png"))); // NOI18N
         jButton2.setToolTipText("Buscar");
@@ -134,36 +130,39 @@ public class CartaoPonto extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setText("Id Horista:");
+        jLabel5.setText("ID Horista");
+
+        txtIdHorista.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4)
-                    .addComponent(txtNome)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5)
-                    .addComponent(txtIdHorista, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
-                .addGap(37, 37, 37))
+                    .addComponent(jLabel3)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtId)
+                    .addComponent(txtHora)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdHorista, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(25, 25, 25)
                 .addComponent(jLabel3)
-                .addGap(31, 31, 31)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel4))
@@ -171,19 +170,19 @@ public class CartaoPonto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIdHorista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();

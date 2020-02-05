@@ -1,7 +1,6 @@
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/CartaoPonto.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/EditEmployeeSalaried.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/RemoveEmployee.java
-/home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/NewEmployer.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/NewEmployeeComissionado.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/dal/MysqlManager.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/EditarAgenda.java
@@ -9,6 +8,7 @@
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/TelaSobre.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/NewEmployeeHourly.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/ResultadoVenda.java
+/home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/Pagamento.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/TelaRemoverUsuario.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/employer/NewEmployeeSalaried.java
 /home/vitor/Desktop/Projeto_P4/P4FolhaPagamento/src/main/java/br/com/p4folhapagamento/telas/LoginScreen.java
