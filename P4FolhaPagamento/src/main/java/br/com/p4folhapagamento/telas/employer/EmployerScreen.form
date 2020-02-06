@@ -51,6 +51,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Empregado"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="empregadoActionPerformed"/>
+          </Events>
           <SubComponents>
             <Menu class="javax.swing.JMenu" name="empregadoNovo">
               <Properties>
@@ -140,6 +143,14 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Lista Empregados"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="pagamento">
@@ -157,14 +168,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pagamentoPagarActionPerformed"/>
               </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="pagamentoRelatorios">
-              <Properties>
-                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+R"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Relat&#xf3;rios"/>
-              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>

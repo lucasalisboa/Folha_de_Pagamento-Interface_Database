@@ -36,9 +36,9 @@ public class EmployerScreen extends javax.swing.JFrame {
         empregadoEditarAssalariado = new javax.swing.JMenuItem();
         empregadoEditarComissionado = new javax.swing.JMenuItem();
         empregadoRemover = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         pagamento = new javax.swing.JMenu();
         pagamentoPagar = new javax.swing.JMenuItem();
-        pagamentoRelatorios = new javax.swing.JMenuItem();
         lancamento = new javax.swing.JMenu();
         lancamentoCartaoPonto = new javax.swing.JMenuItem();
         lancamentoResultadoVenda = new javax.swing.JMenuItem();
@@ -102,6 +102,11 @@ public class EmployerScreen extends javax.swing.JFrame {
         menu.add(usuario1);
 
         empregado.setText("Empregado");
+        empregado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                empregadoActionPerformed(evt);
+            }
+        });
 
         empregadoNovo.setText("Novo");
         empregadoNovo.setEnabled(false);
@@ -172,6 +177,14 @@ public class EmployerScreen extends javax.swing.JFrame {
         });
         empregado.add(empregadoRemover);
 
+        jMenuItem2.setText("Lista Empregados");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        empregado.add(jMenuItem2);
+
         menu.add(empregado);
 
         pagamento.setText("Rodar Folha ");
@@ -184,10 +197,6 @@ public class EmployerScreen extends javax.swing.JFrame {
             }
         });
         pagamento.add(pagamentoPagar);
-
-        pagamentoRelatorios.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        pagamentoRelatorios.setText("Relatórios");
-        pagamento.add(pagamentoRelatorios);
 
         menu.add(pagamento);
 
@@ -323,7 +332,7 @@ public class EmployerScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_lancamentoCartaoPontoActionPerformed
 
     private void empregadoEditarComissionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoEditarComissionadoActionPerformed
-        EditEmployeeComissionado editEmployeeComissionado= new EditEmployeeComissionado();
+        EditEmployeeComissionado editEmployeeComissionado = new EditEmployeeComissionado();
         editEmployeeComissionado.setVisible(true);
         this.desktop.add(editEmployeeComissionado);
     }//GEN-LAST:event_empregadoEditarComissionadoActionPerformed
@@ -372,6 +381,16 @@ public class EmployerScreen extends javax.swing.JFrame {
         pagamento.setVisible(true);
         this.desktop.add(pagamento);
     }//GEN-LAST:event_pagamentoPagarActionPerformed
+
+    private void empregadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empregadoActionPerformed
+
+    }//GEN-LAST:event_empregadoActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        TelaRelatorio telaRelatorio = new TelaRelatorio();
+        telaRelatorio.setVisible(true);
+        this.desktop.add(telaRelatorio);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,13 +447,13 @@ public class EmployerScreen extends javax.swing.JFrame {
     private javax.swing.JMenuItem empregadoNovoComissionado;
     private javax.swing.JMenuItem empregadoNovoHorista;
     public static javax.swing.JMenuItem empregadoRemover;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu lancamento;
     private javax.swing.JMenuItem lancamentoCartaoPonto;
     private javax.swing.JMenuItem lancamentoResultadoVenda;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu pagamento;
     private javax.swing.JMenuItem pagamentoPagar;
-    private javax.swing.JMenuItem pagamentoRelatorios;
     private javax.swing.JMenu usuario1;
     public static javax.swing.JMenuItem usuarioNovo;
     public static javax.swing.JMenuItem usuarioRemover;
