@@ -52,6 +52,7 @@ public class LoginScreen extends javax.swing.JFrame {
                         EmployerScreen.empregadoRemover.setEnabled(true);
                         EmployerScreen.usuarioNovo.setEnabled(true);
                         EmployerScreen.usuarioRemover.setEnabled(true);
+                        EmployerScreen.usuarioAlterar.setEnabled(true);
                     } else {
                         new EmployerScreen(LocalDate.now()).setVisible(true);
                     }
@@ -67,6 +68,7 @@ public class LoginScreen extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ops, database offline");
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
