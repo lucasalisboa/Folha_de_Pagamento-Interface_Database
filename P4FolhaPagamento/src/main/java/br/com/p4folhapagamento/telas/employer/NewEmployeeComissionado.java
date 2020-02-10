@@ -27,7 +27,7 @@ public class NewEmployeeComissionado extends javax.swing.JInternalFrame {
             this.pst.setString(1, this.nome.getText());
             this.pst.setString(2, this.endereco.getText());
             this.pst.setString(3, this.cboPagamento.getSelectedItem().toString());
-            this.pst.setString(4, "Comissionado");
+            this.pst.setString(4, "comissionado");
             this.pst.setString(5, this.cboSindicato.getSelectedItem().toString());
             this.pst.setString(6, "1");
 
@@ -60,7 +60,7 @@ public class NewEmployeeComissionado extends javax.swing.JInternalFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
@@ -176,14 +176,14 @@ public class NewEmployeeComissionado extends javax.swing.JInternalFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {                                          
         adicionar();
-    }//GEN-LAST:event_btnEnviarActionPerformed
+    }                                         
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton btnEnviar;
     private javax.swing.JComboBox<String> cboPagamento;
     private javax.swing.JComboBox<String> cboSindicato;
@@ -198,5 +198,5 @@ public class NewEmployeeComissionado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField nome;
     private javax.swing.JTextField salario;
     private javax.swing.JTextField taxa;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
