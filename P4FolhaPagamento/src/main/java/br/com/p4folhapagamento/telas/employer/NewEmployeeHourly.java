@@ -27,7 +27,7 @@ public class NewEmployeeHourly extends javax.swing.JInternalFrame {
             this.pst.setString(1, this.txtHoristaNome.getText());
             this.pst.setString(2, this.endereco.getText());
             this.pst.setString(3, this.cboPagamento.getSelectedItem().toString());
-            this.pst.setString(4, "Horista");
+            this.pst.setString(4, "horista");
             this.pst.setString(5, this.cboSindicato.getSelectedItem().toString());
             this.pst.setString(6, "1");
 
@@ -58,7 +58,7 @@ public class NewEmployeeHourly extends javax.swing.JInternalFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         nomeLabel = new javax.swing.JLabel();
@@ -185,26 +185,26 @@ public class NewEmployeeHourly extends javax.swing.JInternalFrame {
         );
 
         setBounds(0, 0, 538, 338);
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void txtHoristaNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHoristaNomeActionPerformed
+    private void txtHoristaNomeActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtHoristaNomeActionPerformed
+    }                                              
 
-    private void cboPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPagamentoActionPerformed
+    private void cboPagamentoActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboPagamentoActionPerformed
+    }                                            
 
-    private void salarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salarioActionPerformed
+    private void salarioActionPerformed(java.awt.event.ActionEvent evt) {                                        
         // TODO add your handling code here:
-    }//GEN-LAST:event_salarioActionPerformed
+    }                                       
 
-    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
+    private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {                                          
         adicionar();
-    }//GEN-LAST:event_btnEnviarActionPerformed
+    }                                         
 
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton btnEnviar;
     private javax.swing.JComboBox<String> cboPagamento;
     private javax.swing.JComboBox<String> cboSindicato;
@@ -217,5 +217,5 @@ public class NewEmployeeHourly extends javax.swing.JInternalFrame {
     private javax.swing.JTextField salario;
     private javax.swing.JLabel salarioLabel;
     private javax.swing.JTextField txtHoristaNome;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
